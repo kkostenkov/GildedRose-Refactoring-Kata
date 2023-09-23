@@ -19,7 +19,7 @@ namespace csharp
             Console.SetOut(new StringWriter(fakeoutput));
             Console.SetIn(new StringReader("a\n"));
 
-            Program.Main(new string[] { });
+            Program.Main1(new string[] { });
             var output = fakeoutput.ToString();
 
             Approvals.Verify(output);
