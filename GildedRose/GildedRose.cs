@@ -16,7 +16,8 @@ namespace csharp
 
         public void UpdateQuality()
         {
-            for (var i = 0; i < Items.Count; i++) {
+            for (var i = 0; i < Items.Count; i++)
+            {
                 var item = Items[i];
                 ProcessItem(item);
             }
@@ -24,66 +25,73 @@ namespace csharp
 
         private static void ProcessItem(Item item)
         {
-            if (item.Name == BackstagePassesToATafkal80EtcConcert) {
-                IncreaseQualityTickets(item);
-            }
-            else if (item.Name != AgedBrie) {
-                if (item.Quality > 0) {
-                    if (item.Name != SulfurasHandOfRagnaros) {
-                        item.Quality = item.Quality - 1;
-                    }
-                }
+            if (item.Name == SulfurasHandOfRagnaros)
+            {
+                return;
             }
 
-            if (item.Name != SulfurasHandOfRagnaros) {
-                item.SellIn = item.SellIn - 1;
+            item.SellIn = item.SellIn - 1;
+
+            if (item.Name == BackstagePassesToATafkal80EtcConcert)
+            {
+                UpdateQualityTickets(item);
+                return;
             }
 
-            if (item.Name == AgedBrie) {
+            if (item.Name == AgedBrie)
+            {
                 IncreaseQualityBrie(item);
                 return;
             }
 
-            if (item.SellIn < 0) {
-                if (item.Name == BackstagePassesToATafkal80EtcConcert) {
-                    item.Quality = 0;
-                }
-                else {
-                    if (item.Quality > 0) {
-                        if (item.Name != SulfurasHandOfRagnaros) {
-                            item.Quality = item.Quality - 1;
-                        }
-                    }
-                }
+            ReduceQualityRegular(item);
+            if (item.SellIn < 0)
+            {
+                ReduceQualityRegular(item);
+            }
+        }
+
+        private static void ReduceQualityRegular(Item item)
+        {
+            if (item.Quality > 0)
+            {
+                item.Quality = item.Quality - 1;
             }
         }
 
         private static void IncreaseQualityRegular(Item item)
         {
-            if (item.Quality < 50) {
+            if (item.Quality < 50)
+            {
                 item.Quality = item.Quality + 1;
             }
         }
 
-        private static void IncreaseQualityTickets(Item item)
+        private static void UpdateQualityTickets(Item item)
         {
+            if (item.SellIn < 0)
+            {
+                item.Quality = 0;
+                return;
+            }
+            
             IncreaseQualityRegular(item);
-            if (item.SellIn < 11) {
+            if (item.SellIn < 10)
+            {
                 IncreaseQualityRegular(item);
             }
 
-            if (item.SellIn < 6) {
+            if (item.SellIn < 5)
+            {
                 IncreaseQualityRegular(item);
             }
         }
 
         private static void IncreaseQualityBrie(Item item)
         {
-            if (item.Name != AgedBrie) {
-                return;
-            }
             IncreaseQualityRegular(item);
-            if (item.SellIn < 0) {
+            if (item.SellIn < 0)
+            {
                 IncreaseQualityRegular(item);
             }
         }
