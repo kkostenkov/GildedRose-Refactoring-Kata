@@ -94,5 +94,17 @@ namespace csharp
             app.UpdateQuality();
             return Items[0].Quality;
         }
+
+        //"Conjured" items degrade in Quality twice as fast as normal items
+        [TestCase(1, 3, ExpectedResult = 1)]
+        [TestCase(10, 3, ExpectedResult = 1)]
+        [TestCase(0, 9, ExpectedResult = 5)]
+        public int Should_ChangeConjuredQuality_When_Updated(int sellIn, int quality)
+        {
+            IList<Item> Items = new List<Item> { new Item { Name = "Conjured foo", SellIn = sellIn, Quality = quality } };
+            GildedRose app = new GildedRose(Items);
+            app.UpdateQuality();
+            return Items[0].Quality;
+        }
     }
 }
